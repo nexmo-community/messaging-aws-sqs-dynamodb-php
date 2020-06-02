@@ -63,6 +63,8 @@ serverless invoke -f hello
 
 > Note: Above shows the use of function name `hello` as created in the default `serverless.yml` in this example.
 
+You can look at [this repo](https://github.com/nexmo-community/sms-aws-sqs-python-sender) for a possible way to generate `SQS` messages from `Vonage SMS`.
+
 ### Automate
 
 To automate the usage of this function, you can add the newly created `Lambda` as a [Lambda Trigger](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-lambda-function-trigger.html) for your `SQS` instance.
