@@ -12,11 +12,13 @@ use Aws\Exception\AwsException;
 
 return function ($event) {
 
-    $message = $event['Records'][0];
+    // UPDATE THESE VARIABLES AS NEEDED
     $queueUrl = "<your-sqs-url>";
     $DynamoDbTableName = '<your-dynamodb-table-name>';
     $region = 'us-east-1';
     $version = 'latest';
+
+    $message = $event['Records'][0];
 
     $sqsClient = new SqsClient([
         'region' => $region,
