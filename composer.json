@@ -1,0 +1,17 @@
+{
+    "name": "vonage/aws-sqs-to-dynamo-storage",
+    "description": "AWS Lambda function created in PHP that once triggered, moves a message from SQS into DynamoDB.",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "adamculp",
+            "email": "adam.culp@vonage.com"
+        }
+    ],
+    "require": {
+        "ext-json": "*",
+        "bref/bref": "^0.5.25",
+        "aws/aws-sdk-php": "^3.138"
+    }
+}

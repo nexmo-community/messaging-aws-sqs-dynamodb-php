@@ -1,0 +1,42 @@
+service: sqstodynamo
+
+provider:
+    name: aws
+    region: us-east-1
+    runtime: provided
+    iamRoleStatements:
+        - Effect: Allow
+          Action:
+              - sqs:SendMessage
+              - sqs:ReceiveMessage
+              - sqs:DeleteMessage
+              - sqs:GetQueueAttributes
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+          Resource: '<your-sqs-arn>'
+        - Effect: Allow
+          Action:
+              - dynamodb:BatchGetItem
+              - dynamodb:GetItem
+              - dynamodb:Query
+              - dynamodb:Scan
+              - dynamodb:BatchWriteItem
+              - dynamodb:PutItem
+              - dynamodb:UpdateItem
+          Resource: '<your-dynamodb-table-arn>'
+
+plugins:
+    - ./vendor/bref/bref
+
+functions:
+    hello:
+        handler: index.php
+        description: ''
+        layers:
+            - ${bref:layer.php-74}
+
+# Exclude files from deployment
+package:
+    exclude:
+        - 'tests/**'
