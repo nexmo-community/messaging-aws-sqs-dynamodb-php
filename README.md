@@ -28,26 +28,22 @@ composer install
 
 You will need to create [AWS credentials](https://www.serverless.com/framework/docs/providers/aws/guide/credentials/) as indicated by `Serverless`.
 
-Also, create a new [SQS queue](https://aws.amazon.com/sqs/) using the default settings, and update `serverless.yml` with the ARN for the placeholder `<your-sqs-arn>`.
+Also, create a new [SQS queue](https://aws.amazon.com/sqs/) using the default settings. Make note of the ARN for later use.
 
-Lastly, create a new [DynamoDB table](https://aws.amazon.com/dynamodb/) using the default settings, and update `serverless.yml` with the ARN for the placeholder `<your-dynamodb-table-arn>`.
+Lastly, create a new [DynamoDB table](https://aws.amazon.com/dynamodb/) using the default settings. Make note of the table name and ARN for later use.
 
 > Note: Ensure the primary key field name you set for the DynamoDB table matches the message ID in your SQS queue items. For this example we used `messageId`.
 
 ### Update Environment
 
-Rename the provided `.env.default` file to `.env`:
+Rename the provided `config.yml.dist` file to `config.yml` and update the values as needed from `AWS` and `DynamoDB`, then save.
 
-```
-mv .env.example .env
-```
-
-Then update the values as needed from `AWS` and `DynamoDB`, and save.
-
-```
-AWS_REGION=us-east-1
-AWS_VERSION=latest
-DYNAMODB_TABLE_NAME=
+```yaml
+AWS_REGION: us-east-1
+AWS_VERSION: latest
+AWS_DYNAMODB_TABLE_NAME:
+AWS_SQS_ARN:
+AWS_DYNAMODB_TABLE_ARN:
 ```
 
 ### Deploy to Lambda
@@ -63,12 +59,12 @@ serverless deploy
 If there are already messages in SQS, you can test the migration of these from `SQS` to `DynamoDB` by invoking the function by using `Serverless` locally:
 
 ```bash
-serverless invoke -f hello
+serverless invoke -f sqstodynamo
 ```
 
-> Note: Above shows the use of function name `hello` as created in the default `serverless.yml` in this example.
+> Note: Above shows the use of function name `sqstodynamo` as specified in the default `serverless.yml` in this example.
 
-For testing, you can add messages to SQS through the AWS Console website, or you can look at [this repo](https://github.com/nexmo-community/sms-aws-sqs-python-sender) for an example of how to add `SQS` messages through a typical `HTTP POST` request containing `JSON`.
+For testing, you can add messages to `SQS` through the `AWS Console` website, or you can look at [this repo](https://github.com/nexmo-community/sms-aws-sqs-python-sender) for an example of how to add `SQS` messages through a typical `HTTP POST` request containing `JSON`.
 
 ### Automate
 
