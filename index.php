@@ -4,22 +4,17 @@ declare(strict_types=1);
 
 require __DIR__ . '/vendor/autoload.php';
 
-use Aws\Sqs\SqsClient;
 use Aws\DynamoDb\DynamoDbClient;
 use Aws\DynamoDb\Exception\DynamoDbException;
 use Aws\DynamoDb\Marshaler;
-use Aws\Exception\AwsException;
 
 return function ($event) {
 
-    // UPDATE THESE VARIABLES AS NEEDED
-    $DynamoDbTableName = '<your-dynamodb-table-name>';
-    $region = 'us-east-1';
-    $version = 'latest';
+    Dotenv\Dotenv::create(__DIR__)->load();
 
     $dynamoClient = new DynamoDbClient([
-        'region' => $region,
-        'version' => $version
+        'region' => getenv('AWS_REGION'),
+        'version' => getenv('AWS_VERSION')
     ]);
 
     // connect to DynamoDB, add the record, and remove from SQS
@@ -30,7 +25,7 @@ return function ($event) {
                 $item = $marshaller->marshalJson(json_encode($value));
 
                 $params = [
-                    'TableName' => $DynamoDbTableName,
+                    'TableName' => getenv('DYNAMODB_TABLE_NAME'),
                     'Item' => $item
                 ];
 
