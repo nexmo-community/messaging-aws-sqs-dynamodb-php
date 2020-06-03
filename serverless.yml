@@ -30,9 +30,9 @@ plugins:
     - ./vendor/bref/bref
 
 functions:
-    hello:
+    sqstodynamo:
         handler: index.php
-        description: ''
+        description: 'PHP Function used as a callback for SQS to migrate messages to DynamoDB'
         layers:
             - ${bref:layer.php-74}
 
