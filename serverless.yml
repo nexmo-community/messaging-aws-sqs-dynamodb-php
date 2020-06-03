@@ -14,7 +14,7 @@ provider:
               - logs:CreateLogGroup
               - logs:CreateLogStream
               - logs:PutLogEvents
-          Resource: '<your-sqs-arn>'
+          Resource: ${file(config.yml):AWS_SQS_ARN}
         - Effect: Allow
           Action:
               - dynamodb:BatchGetItem
@@ -24,7 +24,7 @@ provider:
               - dynamodb:BatchWriteItem
               - dynamodb:PutItem
               - dynamodb:UpdateItem
-          Resource: '<your-dynamodb-table-arn>'
+          Resource: ${file(config.yml):AWS_DYNAMODB_TABLE_ARN}
 
 plugins:
     - ./vendor/bref/bref
