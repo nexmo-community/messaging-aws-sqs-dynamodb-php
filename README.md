@@ -28,21 +28,26 @@ composer install
 
 You will need to create [AWS credentials](https://www.serverless.com/framework/docs/providers/aws/guide/credentials/) as indicated by `Serverless`.
 
-Also, create a new [SQS queue](https://aws.amazon.com/sqs/) using the default settings, and update `serverless.yml` and `index.php` with the SQS queue URL. Do this by updating `<your-sqs-arn>` and `<your-sqs-url>` respectively.
+Also, create a new [SQS queue](https://aws.amazon.com/sqs/) using the default settings, and update `serverless.yml` with the ARN for the placeholder `<your-sqs-arn>`.
 
-Lastly, create a new [DynamoDB table](https://aws.amazon.com/dynamodb/) using the default settings, and update `serverless.yml` and `index.php` with that information as well. Do this by updating `<your-dynamodb-table-arn>` and `<your-dynamodb-table-name>` respectively.
+Lastly, create a new [DynamoDB table](https://aws.amazon.com/dynamodb/) using the default settings, and update `serverless.yml` with the ARN for the placeholder `<your-dynamodb-table-arn>`.
 
 > Note: Ensure the primary key field name you set for the DynamoDB table matches the message ID in your SQS queue items. For this example we used `messageId`.
 
-### Update Index.php
+### Update Environment
 
-Update the `index.php` to ensure the variables in the beginning of the function get defined correctly.
+Rename the provided `.env.default` file to `.env`:
 
-```php
-$queueUrl = "<your-sqs-url>";
-$DynamoDbTableName = '<your-dynamodb-table-name>';
-$region = 'us-east-1';
-$version = 'latest';
+```
+mv .env.example .env
+```
+
+Then update the values as needed from `AWS` and `DynamoDB`, and save.
+
+```
+AWS_REGION=us-east-1
+AWS_VERSION=latest
+DYNAMODB_TABLE_NAME=
 ```
 
 ### Deploy to Lambda
@@ -63,7 +68,7 @@ serverless invoke -f hello
 
 > Note: Above shows the use of function name `hello` as created in the default `serverless.yml` in this example.
 
-You can look at [this repo](https://github.com/nexmo-community/sms-aws-sqs-python-sender) for a possible way to generate `SQS` messages from `Vonage SMS`.
+For testing, you can add messages to SQS through the AWS Console website, or you can look at [this repo](https://github.com/nexmo-community/sms-aws-sqs-python-sender) for an example of how to add `SQS` messages through a typical `HTTP POST` request containing `JSON`.
 
 ### Automate
 
