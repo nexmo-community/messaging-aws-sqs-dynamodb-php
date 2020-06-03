@@ -7,14 +7,15 @@ require __DIR__ . '/vendor/autoload.php';
 use Aws\DynamoDb\DynamoDbClient;
 use Aws\DynamoDb\Exception\DynamoDbException;
 use Aws\DynamoDb\Marshaler;
+use Symfony\Component\Yaml\Yaml;
 
 return function ($event) {
 
-    Dotenv\Dotenv::create(__DIR__)->load();
+    $config = Yaml::parseFile('config.yml');
 
     $dynamoClient = new DynamoDbClient([
-        'region' => getenv('AWS_REGION'),
-        'version' => getenv('AWS_VERSION')
+        'region' => $config['AWS_REGION'],
+        'version' => $config['AWS_VERSION']
     ]);
 
     // connect to DynamoDB, add the record, and remove from SQS
@@ -25,7 +26,7 @@ return function ($event) {
                 $item = $marshaller->marshalJson(json_encode($value));
 
                 $params = [
-                    'TableName' => getenv('DYNAMODB_TABLE_NAME'),
+                    'TableName' => $config['AWS_DYNAMODB_TABLE_NAME'],
                     'Item' => $item
                 ];
 

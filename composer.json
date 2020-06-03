@@ -13,6 +13,6 @@
         "ext-json": "*",
         "bref/bref": "^0.5.25",
         "aws/aws-sdk-php": "^3.138",
-        "vlucas/phpdotenv": "3.5.x-dev"
+        "symfony/yaml": "^5.1"
     }
 }
