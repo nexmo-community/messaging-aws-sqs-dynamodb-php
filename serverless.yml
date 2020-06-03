@@ -1,0 +1,42 @@
+service: sqstodynamo
+
+provider:
+    name: aws
+    region: us-east-1
+    runtime: provided
+    iamRoleStatements:
+        - Effect: Allow
+          Action:
+              - sqs:SendMessage
+              - sqs:ReceiveMessage
+              - sqs:DeleteMessage
+              - sqs:GetQueueAttributes
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+          Resource: ${file(config.yml):AWS_SQS_ARN}
+        - Effect: Allow
+          Action:
+              - dynamodb:BatchGetItem
+              - dynamodb:GetItem
+              - dynamodb:Query
+              - dynamodb:Scan
+              - dynamodb:BatchWriteItem
+              - dynamodb:PutItem
+              - dynamodb:UpdateItem
+          Resource: ${file(config.yml):AWS_DYNAMODB_TABLE_ARN}
+
+plugins:
+    - ./vendor/bref/bref
+
+functions:
+    sqstodynamo:
+        handler: index.php
+        description: 'PHP Function used as a callback for SQS to migrate messages to DynamoDB'
+        layers:
+            - ${bref:layer.php-74}
+
+# Exclude files from deployment
+package:
+    exclude:
+        - 'tests/**'
