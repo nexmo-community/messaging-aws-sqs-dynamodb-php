@@ -11,7 +11,7 @@
     ],
     "require": {
         "ext-json": "*",
-        "bref/bref": "^0.5.25",
+        "bref/bref": "^2.0.0",
         "aws/aws-sdk-php": "^3.138",
         "symfony/yaml": "^5.1"
     }
